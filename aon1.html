@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>劇ファクトリー・aon座 — Cinematic</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700;800&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#0a0a0a;--charcoal:#151413;--smoke:#1e1d1c;--ash:#2a2928;
+  --silver:#a09d98;--light:#d4d0c8;--white:#f0ede6;
+  --red:#e03e3e;--red-glow:rgba(224,62,62,0.35);
+  --serif:'Shippori Mincho',serif;--sans:'Outfit',sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--light);font-family:var(--sans);line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* Film grain */
+body::after{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
+::selection{background:var(--red);color:#fff}
+
+/* Reveal animation */
+.fade{opacity:0;transform:translateY(48px);transition:opacity 1s var(--ease),transform 1s var(--ease)}.fade.in{opacity:1;transform:none}
+.fade-d1{transition-delay:.15s}.fade-d2{transition-delay:.3s}.fade-d3{transition-delay:.45s}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;mix-blend-mode:difference}
+nav .wrap{max-width:1200px;margin:0 auto;padding:20px 48px;display:flex;justify-content:space-between;align-items:center}
+nav .brand{font-family:var(--serif);font-size:1.1rem;color:#fff;text-decoration:none;font-weight:800;letter-spacing:.04em}
+nav .brand small{display:block;font-family:var(--sans);font-size:.55rem;font-weight:600;letter-spacing:.4em;color:var(--red);margin-top:-2px}
+nav ul{display:flex;gap:28px;list-style:none}
+nav a{color:#fff;text-decoration:none;font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;opacity:.5;transition:opacity .3s}
+nav a:hover{opacity:1}
+.nav-m{display:none;background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer}
+
+/* ─── HERO: Cinematic fullscreen ─── */
+.hero{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.35) contrast(1.1);animation:drift 30s ease-in-out infinite alternate}
+@keyframes drift{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.08) translate(-1%,-1%)}}
+.hero-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 30%,rgba(10,10,10,.85) 100%)}
+.hero-content{position:relative;z-index:2;text-align:center}
+.hero-eyebrow{font-size:.6rem;font-weight:600;letter-spacing:.5em;color:var(--red);text-transform:uppercase;margin-bottom:20px;opacity:0;animation:fadeUp .8s .3s var(--ease) forwards}
+.hero h1{font-family:var(--serif);font-size:clamp(2.8rem,7vw,5.5rem);font-weight:800;color:var(--white);line-height:1.2;margin-bottom:20px;opacity:0;animation:fadeUp 1s .5s var(--ease) forwards}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero-sub{font-size:.85rem;color:var(--silver);font-weight:300;letter-spacing:.08em;margin-bottom:44px;opacity:0;animation:fadeUp .8s .8s var(--ease) forwards}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.25);color:#fff;padding:14px 40px;text-decoration:none;font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;transition:all .4s var(--ease);opacity:0;animation:fadeUp .8s 1s var(--ease) forwards}
+.hero-cta:hover{background:var(--red);border-color:var(--red);box-shadow:0 0 40px var(--red-glow)}
+@keyframes fadeUp{to{opacity:1;transform:none}from{opacity:0;transform:translateY(24px)}}
+.scroll-line{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);width:1px;height:60px;background:rgba(255,255,255,.15);overflow:hidden}
+.scroll-line::after{content:'';position:absolute;top:-60px;width:100%;height:60px;background:var(--red);animation:scrollDown 2s ease-in-out infinite}
+@keyframes scrollDown{0%{top:-60px}100%{top:60px}}
+
+/* ─── MARQUEE ─── */
+.marquee-bar{padding:18px 0;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);overflow:hidden;display:flex}
+.marquee-track{display:flex;gap:40px;animation:scrollX 22s linear infinite;white-space:nowrap;font-size:.68rem;font-weight:600;letter-spacing:.15em;color:var(--silver);opacity:.4}
+.marquee-track .dot{color:var(--red)}
+@keyframes scrollX{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ─── SECTIONS ─── */
+.section{padding:140px 0}.container{max-width:1100px;margin:0 auto;padding:0 48px}
+.sec-label{font-size:.6rem;font-weight:600;letter-spacing:.45em;color:var(--red);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:14px}
+.sec-label::before{content:'';width:32px;height:1px;background:var(--red)}
+.sec-title{font-family:var(--serif);font-size:clamp(1.6rem,3.5vw,2.4rem);color:var(--white);margin-bottom:56px;line-height:1.5;font-weight:700}
+
+/* ─── ABOUT ─── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.about-stats{display:flex;flex-direction:column;gap:36px;border-left:1px solid rgba(255,255,255,.08);padding-left:40px}
+.stat .val{font-family:var(--sans);font-size:3rem;font-weight:800;color:var(--white);line-height:1;letter-spacing:-.02em}
+.stat .val span{color:var(--red)}
+.stat .lbl{font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--silver);margin-top:4px}
+.about-text p{font-size:.9rem;line-height:2.2;color:var(--silver);font-weight:300;margin-bottom:24px}
+.about-text .kw{display:inline-block;background:var(--red);color:#fff;padding:2px 10px;font-size:.75rem;font-weight:600;letter-spacing:.04em}
+
+/* ─── SHOW ─── */
+.show-wrap{background:var(--charcoal);border:1px solid rgba(255,255,255,.06);display:grid;grid-template-columns:1.2fr 1fr;overflow:hidden;transition:box-shadow .5s var(--ease)}
+.show-wrap:hover{box-shadow:0 24px 80px rgba(224,62,62,.08)}
+.show-img{position:relative;overflow:hidden}
+.show-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s var(--ease)}
+.show-wrap:hover .show-img img{transform:scale(1.04)}
+.show-info{padding:52px 48px;display:flex;flex-direction:column}
+.show-tag{display:inline-block;border:1px solid var(--red);color:var(--red);padding:4px 14px;font-size:.55rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:20px;align-self:flex-start}
+.show-name{font-family:var(--serif);font-size:1.5rem;color:var(--white);margin-bottom:20px;line-height:1.6;font-weight:700}
+.show-meta{font-size:.8rem;color:var(--silver);line-height:2.2;flex:1;font-weight:300}
+.show-btn{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;padding:14px 32px;text-decoration:none;font-size:.7rem;font-weight:600;letter-spacing:.14em;margin-top:28px;align-self:flex-start;transition:all .35s var(--ease)}
+.show-btn:hover{background:#fff;color:var(--black);box-shadow:0 8px 32px var(--red-glow)}
+.show-btn .arr{transition:transform .3s}.show-btn:hover .arr{transform:translateX(4px)}
+
+/* ─── MEMBERS ─── */
+.member-row{display:grid;grid-template-columns:repeat(6,1fr);gap:2px}
+.member{position:relative;overflow:hidden;cursor:pointer}
+.member img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;filter:grayscale(1) brightness(.7);transition:all .5s var(--ease)}
+.member:hover img{filter:grayscale(0) brightness(1);transform:scale(1.06)}
+.member .overlay{position:absolute;bottom:0;left:0;right:0;padding:20px 10px 12px;background:linear-gradient(transparent,rgba(10,10,10,.9));text-align:center;transform:translateY(6px);opacity:.7;transition:all .4s var(--ease)}
+.member:hover .overlay{transform:none;opacity:1}
+.member .overlay .n{font-size:.7rem;font-weight:600;color:#fff;letter-spacing:.04em}
+.member .overlay .r{font-size:.55rem;font-weight:600;letter-spacing:.12em;color:var(--red);text-transform:uppercase;margin-top:2px}
+
+/* ─── ARCHIVE ─── */
+.archive-sec{background:var(--charcoal)}
+.archive-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.archive-grid a{display:block;overflow:hidden;position:relative}
+.archive-grid a::after{content:'↗';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#fff;background:rgba(224,62,62,0);opacity:0;transition:all .4s var(--ease)}
+.archive-grid a:hover::after{background:rgba(224,62,62,.55);opacity:1}
+.archive-grid img{width:100%;aspect-ratio:1;object-fit:cover;display:block;filter:brightness(.5);transition:all .5s var(--ease)}
+.archive-grid a:hover img{filter:brightness(.85);transform:scale(1.06)}
+
+/* ─── CONTACT ─── */
+.contact-row{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.c-card{background:var(--charcoal);border:1px solid rgba(255,255,255,.04);padding:44px 28px;text-align:center;text-decoration:none;color:var(--light);transition:all .4s var(--ease);display:flex;flex-direction:column;align-items:center;gap:12px}
+.c-card:hover{background:var(--smoke);border-color:var(--red);transform:translateY(-6px)}
+.c-card .ic{width:52px;height:52px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:border-color .3s}
+.c-card:hover .ic{border-color:var(--red)}
+.c-card .cl{font-size:.75rem;font-weight:600;letter-spacing:.14em}
+.c-card .cs{font-size:.65rem;color:var(--silver);font-weight:300}
+.contact-email{text-align:center;padding-top:56px;font-size:.8rem;color:var(--silver);font-weight:300;line-height:2}
+.contact-email a{color:var(--red);text-decoration:none;font-weight:600}
+
+/* ─── FOOTER ─── */
+footer{padding:36px 48px;text-align:center;font-size:.6rem;letter-spacing:.14em;color:rgba(255,255,255,.2);border-top:1px solid rgba(255,255,255,.04)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:960px){
+  .about-grid{grid-template-columns:1fr;gap:48px}
+  .about-stats{flex-direction:row;gap:32px;border-left:none;border-top:1px solid rgba(255,255,255,.08);padding-left:0;padding-top:32px}
+}
+@media(max-width:768px){
+  .container{padding:0 20px}nav .wrap{padding:14px 20px}
+  nav ul{display:none}.nav-m{display:block}
+  .hero h1{font-size:2.4rem}
+  .section{padding:72px 0}
+  .show-wrap{grid-template-columns:1fr}
+  .show-info{padding:28px 24px}
+  .show-btn{width:100%;justify-content:center}
+  .member-row{grid-template-columns:repeat(3,1fr)}
+  .archive-grid{grid-template-columns:repeat(2,1fr)}
+  .contact-row{grid-template-columns:1fr}
+  .c-card{flex-direction:row;text-align:left;padding:24px 20px;gap:16px}
+  .about-stats{flex-direction:row;flex-wrap:wrap;justify-content:space-between}
+  .stat .val{font-size:2rem}
+}
+@media(max-width:400px){
+  .hero h1{font-size:1.9rem}
+  .member-row{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a href="#" class="brand">aon座<small>FACTORY</small></a>
+  <button class="nav-m">☰</button>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#show">Stage</a></li>
+    <li><a href="#members">Members</a></li>
+    <li><a href="#archive">Archive</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</div></nav>
+
+<section class="hero">
+  <div class="hero-bg"><img src="hero.png" alt=""></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Osaka · Kitakagaya · Since 2022</div>
+    <h1>劇<em>ファクトリー</em><br>aon座</h1>
+    <p class="hero-sub">工場のように、作品を生み出し続ける。</p>
+    <a href="#show" class="hero-cta">最新公演を見る →</a>
+  </div>
+  <div class="scroll-line"></div>
+</section>
+
+<div class="marquee-bar"><div class="marquee-track">
+  <span><span class="dot">●</span> 藝術工場◎カナリヤ条約（大阪・北加賀屋）</span>
+  <span><span class="dot">●</span> 独自の演技術「logbook」</span>
+  <span><span class="dot">●</span> TikTokライブ毎日配信中</span>
+  <span><span class="dot">●</span> エミィ賞3位受賞</span>
+  <span><span class="dot">●</span> 藝術工場◎カナリヤ条約（大阪・北加賀屋）</span>
+  <span><span class="dot">●</span> 独自の演技術「logbook」</span>
+  <span><span class="dot">●</span> TikTokライブ毎日配信中</span>
+  <span><span class="dot">●</span> エミィ賞3位受賞</span>
+</div></div>
+
+<section class="section" id="about"><div class="container">
+  <div class="sec-label fade">ABOUT US</div>
+  <div class="sec-title fade">演劇の工場から、<br>あたらしい舞台が生まれる。</div>
+  <div class="about-grid">
+    <div class="about-text fade">
+      <p>独自の演技術 <span class="kw">logbook</span> をベースに、上演作品のリハーサルから公演まで「藝術工場◎カナリヤ条約」で一貫して実践しています。</p>
+      <p>大阪・北加賀屋を拠点に、若手のエネルギーと実験精神で、演劇の新しい可能性を追求するカンパニーです。工場のように作品を生み出し続ける——それが私たちのスタイルです。</p>
+    </div>
+    <div class="about-stats fade fade-d1">
+      <div class="stat"><div class="val">202<span>2</span></div><div class="lbl">設立年</div></div>
+      <div class="stat"><div class="val">1<span>2</span>+</div><div class="lbl">メンバー数</div></div>
+      <div class="stat"><div class="val">1<span>5</span>+</div><div class="lbl">上演作品数</div></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="section" id="show"><div class="container">
+  <div class="sec-label fade">NOW SHOWING</div>
+  <div class="sec-title fade">公演情報</div>
+  <div class="show-wrap fade">
+    <div class="show-img"><img src="next-stage.jpg" alt=""></div>
+    <div class="show-info">
+      <div class="show-tag">Next Stage</div>
+      <div class="show-name">京都丹波エリア演劇祭</div>
+      <div class="show-meta">2026年3月8日（日）10:00〜16:00<br>会場：八木市民センター iスタやぎ 3階<br><br>チケット（協力金）2,000円<br>高校生以下無料<br><br>主催：京都南丹Yagi-JAM実行委員会</div>
+      <a href="#" class="show-btn">チケット予約 <span class="arr">→</span></a>
+    </div>
+  </div>
+</div></section>
+
+<section class="section" id="members"><div class="container">
+  <div class="sec-label fade">MEMBERS</div>
+  <div class="sec-title fade">劇団員</div>
+  <div class="member-row fade">
+    <div class="member"><img src="img/image_13.jpeg" alt=""><div class="overlay"><div class="n">西村 菜波</div><div class="r">座長</div></div></div>
+    <div class="member"><img src="img/image_14.jpeg" alt=""><div class="overlay"><div class="n">紅羽</div></div></div>
+    <div class="member"><img src="img/image_15.jpeg" alt=""><div class="overlay"><div class="n">大橋 愛芽</div></div></div>
+    <div class="member"><img src="img/image_16.jpeg" alt=""><div class="overlay"><div class="n">久保 萌実</div></div></div>
+    <div class="member"><img src="img/image_17.jpeg" alt=""><div class="overlay"><div class="n">皆川 楓</div></div></div>
+    <div class="member"><img src="img/image_18.jpeg" alt=""><div class="overlay"><div class="n">船橋 綾香</div></div></div>
+  </div>
+  <div class="member-row fade fade-d1" style="border-top:none">
+    <div class="member"><img src="img/image_19.jpeg" alt=""><div class="overlay"><div class="n">ふかほり ゆうな</div></div></div>
+    <div class="member"><img src="img/image_20.jpeg" alt=""><div class="overlay"><div class="n">白﨑 かなう</div></div></div>
+    <div class="member"><img src="img/image_21.jpeg" alt=""><div class="overlay"><div class="n">宮内 桜</div></div></div>
+    <div class="member"><img src="img/image_22.jpeg" alt=""><div class="overlay"><div class="n">江川 珠奈</div></div></div>
+    <div class="member"><img src="img/image_23.jpeg" alt=""><div class="overlay"><div class="n">小山 舞里愛</div></div></div>
+    <div class="member"><img src="img/image_24.jpeg" alt=""><div class="overlay"><div class="n">奥 風歌</div></div></div>
+  </div>
+</div></section>
+
+<section class="section archive-sec" id="archive"><div class="container">
+  <div class="sec-label fade">ARCHIVE</div>
+  <div class="sec-title fade">過去上演作品</div>
+  <div class="archive-grid fade">
+    <a href="https://t.pia.jp/pia/ticketInformation.do?eventCd=2538127&rlsCd=001&lotRlsCd=" target="_blank"><img src="img/image_3.jpeg" alt=""></a>
+    <a href="https://stage.corich.jp/stage/403883" target="_blank"><img src="img/image_7.jpeg" alt=""></a>
+    <a href="https://stage.corich.jp/stage/408424" target="_blank"><img src="img/image_8.jpeg" alt=""></a>
+    <a href="https://stage.corich.jp/stage/378408" target="_blank"><img src="img/image_9.jpeg" alt=""></a>
+    <a href="https://stage.corich.jp/stage/366297" target="_blank"><img src="img/image_10.jpeg" alt=""></a>
+    <a href="https://stage.corich.jp/stage/346101" target="_blank"><img src="img/image_11.jpeg" alt=""></a>
+    <a href="https://stage.corich.jp/stage/333461" target="_blank"><img src="img/image_12.jpeg" alt=""></a>
+    <a href="https://stage.corich.jp/stage_main/298468" target="_blank"><img src="img/image_5.png" alt=""></a>
+  </div>
+</div></section>
+
+<section class="section" id="contact"><div class="container">
+  <div class="sec-label fade">CONTACT</div>
+  <div class="sec-title fade">お問い合わせ・SNS</div>
+  <div class="contact-row fade">
+    <a href="https://www.instagram.com/factory_aonza/" target="_blank" class="c-card"><div class="ic">📸</div><div><div class="cl">Instagram</div><div class="cs">稽古風景やメンバーの素の姿</div></div></a>
+    <a href="https://twitter.com/factoryaonza" target="_blank" class="c-card"><div class="ic">𝕏</div><div><div class="cl">X (Twitter)</div><div class="cs">最速でaon座情報をゲット</div></div></a>
+    <a href="https://www.tiktok.com/@aonza0416" target="_blank" class="c-card"><div class="ic">🎵</div><div><div class="cl">TikTok</div><div class="cs">毎日ライブ配信中</div></div></a>
+  </div>
+  <div class="contact-email fade">お仕事のご依頼：アーティストユニオン「華淡」<br><a href="/cdn-cgi/l/email-protection#82e3f5e3f6e3f1eaebacf7ecebedecc2e5efe3ebeeace1edef"><span class="__cf_email__" data-cfemail="4a2b3d2b3e2b392223643f242325240a2d272b232664292527">[email&#160;protected]</span></a></div>
+</div></section>
+
+<footer>© 2024 劇ファクトリー・aon座 All rights reserved.</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script
