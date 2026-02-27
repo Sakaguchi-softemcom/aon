@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>劇ファクトリー・aon座 — 和モダン</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#1a1714;--charcoal:#2d2a26;--earth:#4a443a;--stone:#8c8478;
+  --sand:#c8bfb0;--paper:#ece7dc;--washi:#f5f1e8;--white:#faf8f3;
+  --vermillion:#c13b2a;--vermillion-soft:rgba(193,59,42,.12);
+  --mincho:'Zen Old Mincho',serif;--gothic:'Zen Kaku Gothic New',sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+html{scroll-behavior:smooth}
+body{background:var(--washi);color:var(--ink);font-family:var(--gothic);font-weight:400;line-height:2;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* Washi paper texture */
+body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23t)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
+::selection{background:var(--vermillion);color:#fff}
+
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease)}.rv.vis{opacity:1;transform:none}
+.rv-d1{transition-delay:.15s}.rv-d2{transition-delay:.3s}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(245,241,232,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+nav .w{max-width:1100px;margin:0 auto;padding:0 48px;height:56px;display:flex;align-items:center;justify-content:space-between}
+nav .brand{text-decoration:none;display:flex;align-items:center;gap:12px}
+nav .brand .kanji{font-family:var(--mincho);font-size:1.1rem;font-weight:900;color:var(--ink)}
+nav .brand .dot{width:6px;height:6px;background:var(--vermillion);border-radius:50%;flex-shrink:0}
+nav .brand .sub{font-size:.55rem;font-weight:700;letter-spacing:.3em;color:var(--stone)}
+nav ul{display:flex;gap:28px;list-style:none}
+nav li a{color:var(--earth);text-decoration:none;font-size:.65rem;font-weight:700;letter-spacing:.15em;position:relative;transition:color .3s}
+nav li a:hover{color:var(--vermillion)}
+.nm{display:none;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--ink)}
+
+/* ─── HERO ─── */
+.hero{margin-top:56px;min-height:calc(100vh - 56px);display:grid;grid-template-columns:1fr 480px;position:relative}
+.hero-main{padding:100px 64px 80px;display:flex;flex-direction:column;justify-content:center;position:relative}
+.hero-vertical{position:absolute;top:100px;right:64px;writing-mode:vertical-rl;font-family:var(--mincho);font-size:.7rem;color:var(--sand);letter-spacing:.5em;line-height:2}
+.hero-eyebrow{font-size:.6rem;font-weight:700;letter-spacing:.4em;color:var(--vermillion);margin-bottom:24px}
+.hero h1{font-family:var(--mincho);font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:900;color:var(--ink);line-height:1.5;margin-bottom:24px;letter-spacing:.06em}
+.hero h1 .v{color:var(--vermillion)}
+.hero-lead{font-size:.88rem;font-weight:300;color:var(--stone);line-height:2.2;margin-bottom:48px;max-width:400px}
+.hero-cta{display:inline-flex;align-items:center;gap:12px;background:var(--ink);color:var(--washi);padding:14px 36px;text-decoration:none;font-size:.72rem;font-weight:700;letter-spacing:.14em;transition:all .4s var(--ease);align-self:flex-start}
+.hero-cta:hover{background:var(--vermillion)}
+.hero-cta .arr{transition:transform .3s}.hero-cta:hover .arr{transform:translateX(5px)}
+.hero-img{position:relative;overflow:hidden}
+.hero-img img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,var(--washi) 0%,transparent 15%);pointer-events:none}
+
+/* ─── Decorative line ─── */
+.deco-line{height:1px;background:linear-gradient(90deg,var(--vermillion) 60px,var(--sand) 60px,transparent 100%);margin:0}
+
+/* ─── SECTION ─── */
+.sec{padding:120px 0}.container{max-width:1100px;margin:0 auto;padding:0 48px}
+.sec-label{font-size:.58rem;font-weight:700;letter-spacing:.5em;color:var(--vermillion);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.sec-label::before{content:'';width:24px;height:1px;background:var(--vermillion)}
+.sec-title{font-family:var(--mincho);font-size:clamp(1.6rem,3.5vw,2.3rem);color:var(--ink);margin-bottom:56px;line-height:1.6;letter-spacing:.04em;font-weight:700}
+
+/* ─── ABOUT ─── */
+.about-bg{background:var(--paper)}
+.about-grid{display:grid;grid-template-columns:1fr 240px;gap:72px}
+.about-text p{font-size:.9rem;line-height:2.4;font-weight:300;color:var(--charcoal);margin-bottom:24px}
+.about-text .kw{display:inline-block;background:var(--ink);color:var(--washi);padding:2px 12px;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+.about-side{display:flex;flex-direction:column;gap:40px;border-left:1px solid var(--sand);padding-left:40px}
+.st .num{font-family:var(--mincho);font-size:2.8rem;font-weight:900;color:var(--ink);line-height:1;letter-spacing:-.02em}
+.st .num span{color:var(--vermillion)}
+.st .txt{font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);margin-top:4px}
+
+/* ─── SHOW ─── */
+.show-card{display:grid;grid-template-columns:1.15fr 1fr;overflow:hidden;background:var(--white);box-shadow:0 2px 40px rgba(0,0,0,.04);transition:box-shadow .5s var(--ease)}
+.show-card:hover{box-shadow:0 16px 60px rgba(0,0,0,.08)}
+.show-card .img{position:relative;overflow:hidden}
+.show-card .img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s var(--ease)}
+.show-card:hover .img img{transform:scale(1.04)}
+.show-card .info{padding:52px 44px;display:flex;flex-direction:column}
+.show-card .tag{display:inline-block;font-family:var(--mincho);font-size:.72rem;font-weight:700;color:var(--vermillion);border-bottom:1px solid var(--vermillion);padding-bottom:4px;margin-bottom:20px;align-self:flex-start;letter-spacing:.1em}
+.show-card .name{font-family:var(--mincho);font-size:1.5rem;font-weight:900;color:var(--ink);margin-bottom:20px;line-height:1.6;letter-spacing:.04em}
+.show-card .meta{font-size:.82rem;color:var(--stone);line-height:2.2;flex:1;font-weight:300}
+.show-card .btn{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--washi);padding:14px 28px;text-decoration:none;font-size:.7rem;font-weight:700;letter-spacing:.12em;margin-top:28px;align-self:flex-start;transition:all .35s var(--ease)}
+.show-card .btn:hover{background:var(--vermillion)}
+
+/* ─── MEMBERS ─── */
+.members-bg{background:var(--paper)}
+.member-row{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border:1px solid var(--sand)}
+.m{position:relative;overflow:hidden;cursor:pointer;border-right:1px solid rgba(200,191,176,.4)}
+.m:last-child{border-right:none}
+.m img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;filter:grayscale(.8) sepia(.15);transition:all .5s var(--ease)}
+.m:hover img{filter:grayscale(0) sepia(0);transform:scale(1.05)}
+.m .ov{position:absolute;bottom:0;left:0;right:0;padding:20px 8px 10px;background:linear-gradient(transparent,rgba(26,23,20,.85));text-align:center;opacity:.75;transform:translateY(4px);transition:all .4s var(--ease)}
+.m:hover .ov{opacity:1;transform:none}
+.m .ov .n{color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.04em}
+.m .ov .r{color:var(--vermillion);font-size:.52rem;font-weight:700;letter-spacing:.1em;margin-top:2px}
+.member-row-2{border-top:none}
+
+/* ─── ARCHIVE ─── */
+.archive-sec{background:var(--ink)}
+.archive-sec .sec-title{color:var(--paper)}
+.archive-sec .sec-label::before{background:var(--vermillion)}
+.archive-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.archive-grid a{display:block;overflow:hidden;position:relative}
+.archive-grid a::after{content:'詳細';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mincho);font-size:.9rem;color:#fff;letter-spacing:.3em;background:rgba(193,59,42,0);opacity:0;transition:all .4s var(--ease)}
+.archive-grid a:hover::after{background:rgba(193,59,42,.55);opacity:1}
+.archive-grid img{width:100%;aspect-ratio:1;object-fit:cover;display:block;filter:brightness(.5) sepia(.1);transition:all .5s var(--ease)}
+.archive-grid a:hover img{filter:brightness(.8) sepia(0);transform:scale(1.06)}
+
+/* ─── CONTACT ─── */
+.contact-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--sand)}
+.cc{background:var(--white);padding:44px 28px;text-align:center;text-decoration:none;color:var(--ink);transition:all .4s var(--ease);display:flex;flex-direction:column;align-items:center;gap:10px}
+.cc:hover{background:var(--vermillion-soft)}
+.cc .ic{width:50px;height:50px;border:1.5px solid var(--sand);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:border-color .3s}
+.cc:hover .ic{border-color:var(--vermillion)}
+.cc .cl{font-size:.75rem;font-weight:700;letter-spacing:.1em}
+.cc .cs{font-size:.62rem;color:var(--stone);font-weight:300}
+.contact-mail{text-align:center;padding-top:56px;font-size:.82rem;color:var(--stone);font-weight:300;line-height:2}
+.contact-mail a{color:var(--vermillion);text-decoration:none;font-weight:700}
+
+/* ─── FOOTER ─── */
+footer{background:var(--ink);color:var(--sand);padding:40px 48px;text-align:center;font-size:.6rem;letter-spacing:.12em}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr}
+  .hero-img{height:50vw;max-height:400px}
+  .hero-img::after{background:linear-gradient(to bottom,var(--washi) 0%,transparent 20%)}
+  .about-grid{grid-template-columns:1fr;gap:48px}
+  .about-side{border-left:none;border-top:1px solid var(--sand);padding-left:0;padding-top:32px;flex-direction:row;gap:40px}
+  .hero-vertical{display:none}
+  .hero-main{padding:80px 48px 60px}
+}
+@media(max-width:768px){
+  .container{padding:0 20px}nav .w{padding:0 20px;height:50px}
+  nav ul{display:none}.nm{display:block}
+  .hero-main{padding:48px 24px 40px}
+  .hero h1{font-size:2rem}
+  .hero-cta{width:100%;justify-content:center}
+  .sec{padding:64px 0}
+  .show-card{grid-template-columns:1fr}
+  .show-card .info{padding:28px 24px}
+  .show-card .btn{width:100%;justify-content:center}
+  .member-row{grid-template-columns:repeat(3,1fr)}
+  .archive-grid{grid-template-columns:repeat(2,1fr)}
+  .contact-row{grid-template-columns:1fr}
+  .cc{flex-direction:row;text-align:left;padding:22px 20px;gap:16px}
+  .about-side{flex-wrap:wrap;gap:24px;justify-content:space-between}
+  .st .num{font-size:2rem}
+}
+@media(max-width:400px){
+  .hero h1{font-size:1.7rem}.member-row{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<nav><div class="w">
+  <a href="#" class="brand"><span class="kanji">aon座</span><span class="dot"></span><span class="sub">FACTORY</span></a>
+  <button class="nm">☰</button>
+  <ul>
+    <li><a href="#about">劇団について</a></li>
+    <li><a href="#show">公演</a></li>
+    <li><a href="#members">劇団員</a></li>
+    <li><a href="#archive">作品</a></li>
+    <li><a href="#contact">問い合わせ</a></li>
+  </ul>
+</div></nav>
+
+<section class="hero">
+  <div class="hero-main">
+    <div class="hero-vertical">大阪・北加賀屋　藝術工場◎カナリヤ条約</div>
+    <div class="hero-eyebrow">大阪 · 北加賀屋 · 2022 —</div>
+    <h1>劇<span class="v">ファクトリー</span><br>aon座</h1>
+    <p class="hero-lead">関西の演劇界で活動する若手による<br>カンパニースタイル。<br>工場のように、作品を生み出し続ける。</p>
+    <a href="#show" class="hero-cta">最新公演を見る <span class="arr">→</span></a>
+  </div>
+  <div class="hero-img"><img src="hero.png" alt="aon座"></div>
+</section>
+
+<div class="deco-line"></div>
+
+<section class="sec about-bg" id="about"><div class="container">
+  <div class="sec-label rv">劇団について</div>
+  <div class="sec-title rv">演劇の工場から、<br>あたらしい舞台が生まれる。</div>
+  <div class="about-grid">
+    <div class="about-text rv">
+      <p>独自の演技術 <span class="kw">logbook</span> をベースに、上演作品のリハーサルから公演まで「藝術工場◎カナリヤ条約」で一貫して実践しています。</p>
+      <p>大阪・北加賀屋を拠点に、若手のエネルギーと実験精神で、演劇の新しい可能性を追求するカンパニーです。工場のように作品を生み出し続ける——それが私たちのスタイルです。</p>
+    </div>
+    <div class="about-side rv rv-d1">
+      <div class="st"><div class="num">202<span>2</span></div><div class="txt">設立年</div></div>
+      <div class="st"><div class="num">1<span>2</span>+</div><div class="txt">メンバー数</div></div>
+      <div class="st"><div class="num">1<span>5</span>+</div><div class="txt">上演作品数</div></div>
+    </div>
+  </div>
+</div></section>
+
+<div class="deco-line"></div>
+
+<section class="sec" id="show"><div class="container">
+  <div class="sec-label rv">公演情報</div>
+  <div class="sec-title rv">次の舞台</div>
+  <div class="show-card rv">
+    <div class="img"><img src="next-stage.jpg" alt=""></div>
+    <div class="info">
+      <div class="tag">次回公演</div>
+      <div class="name">京都丹波エリア演劇祭</div>
+      <div class="meta">2026年3月8日（日）10:00〜16:00<br>会場：八木市民センター iスタやぎ 3階<br><br>チケット（協力金）2,000円<br>高校生以下無料<br><br>主催：京都南丹Yagi-JAM実行委員会</div>
+      <a href="#" class="btn">チケット予約 →</a>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec members-bg" id="members"><div class="container">
+  <div class="sec-label rv">劇団員</div>
+  <div class="sec-title rv">仲間たち</div>
+  <div class="member-row rv">
+    <div class="m"><img src="https://prd.resource-api.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/buttons/232978cd-2a7b-4d6f-b3c0-0fa1197f6abb.jpeg" alt=""><div class="ov"><div class="n">西村 菜波</div><div class="r">座長</div></div></div>
+    <div class="m"><img src="https://prd.resource-api.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/buttons/3a8f8b5b-7f2e-43e6-9173-8b6b09c4a5e0.jpeg" alt=""><div class="ov"><div class="n">紅羽</div></div></div>
+    <div class="m"><img src="https://prd.resource-api.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/buttons/545af478-7874-4fe0-a62e-76def8f7842e.jpeg" alt=""><div class="ov"><div class="n">大橋 愛芽</div></div></div>
+    <div class="m"><img src="https://prd.resource-api.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/buttons/3fda0ac2-d853-425c-bb64-41617a18f071.jpeg" alt=""><div class="ov"><div class="n">久保 萌実</div></div></div>
+    <div class="m"><img src="https://prd.resource-api.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/buttons/6a8945b0-5a46-47ec-b477-371e0d6b0063.jpeg" alt=""><div class="ov"><div class="n">皆川 楓</div></div></div>
+    <div class="m"><img src="https://prd.resource-api.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/buttons/19222a62-f91a-41b4-9b39-158f4be0c644.jpeg" alt=""><div class="ov"><div class="n">船橋 綾香</div></div></div>
+  </div>
+  <div class="member-row member-row-2 rv rv-d1">
+    <div class="m"><img src="https://prd.resource-api.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/buttons/6df9b91b-fbf3-4849-bdc5-c68377395a54.jpeg" alt=""><div class="ov"><div class="n">ふかほり ゆうな</div></div></div>
+    <div class="m"><img src="https://prd.resource-api.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/buttons/05a56456-e5db-4465-a104-cffc61c7ff6b.jpeg" alt=""><div class="ov"><div class="n">白﨑 かなう</div></div></div>
+    <div class="m"><img src="https://prd.resource-api.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/buttons/1db25b05-42c3-42ac-9954-1e95d400757e.jpeg" alt=""><div class="ov"><div class="n">宮内 桜</div></div></div>
+    <div class="m"><img src="https://prd.resource-api.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/buttons/7f890223-077c-401d-8d9e-4f35cb771204.jpeg" alt=""><div class="ov"><div class="n">江川 珠奈</div></div></div>
+    <div class="m"><img src="https://prd.resource-api.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/buttons/17b8a631-c012-4f69-9472-37dbe21b355e.jpeg" alt=""><div class="ov"><div class="n">小山 舞里愛</div></div></div>
+    <div class="m"><img src="https://prd.resource-api.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/buttons/18536195-9a8e-4d9b-acc3-81064b4ba32b.jpeg" alt=""><div class="ov"><div class="n">奥 風歌</div></div></div>
+  </div>
+</div></section>
+
+<section class="sec archive-sec" id="archive"><div class="container">
+  <div class="sec-label rv" style="color:var(--vermillion)">過去の作品</div>
+  <div class="sec-title rv">上演作品アーカイブ</div>
+  <div class="archive-grid rv">
+    <a href="https://t.pia.jp/pia/ticketInformation.do?eventCd=2538127&rlsCd=001&lotRlsCd=" target="_blank"><img src="https://prd.storage.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/single_images/59142985-df49-4e34-8d29-779f653563d3.jpeg" alt=""></a>
+    <a href="https://stage.corich.jp/stage/403883" target="_blank"><img src="https://prd.storage.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/single_images/4a4595c8-fd69-4b1f-9254-b04aad7c5fed.jpeg" alt=""></a>
+    <a href="https://stage.corich.jp/stage/408424" target="_blank"><img src="https://prd.storage.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/single_images/52931603-280f-489b-9784-01bd652250e7.png" alt=""></a>
+    <a href="https://stage.corich.jp/stage/378408" target="_blank"><img src="https://prd.storage.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/single_images/defe60c1-cf91-486c-9ebf-cba9358fa682.jpeg" alt=""></a>
+    <a href="https://stage.corich.jp/stage/366297" target="_blank"><img src="https://prd.storage.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/single_images/ca868b38-4cd7-40de-955e-2e9007897d60.jpeg" alt=""></a>
+    <a href="https://stage.corich.jp/stage/346101" target="_blank"><img src="https://prd.storage.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/single_images/296e7714-b414-4874-b94e-6373dfaf554c.jpeg" alt=""></a>
+    <a href="https://stage.corich.jp/stage/333461" target="_blank"><img src="https://prd.storage.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/single_images/8a87d0f3-ec9e-4e8a-a82c-decafc326fe5.jpeg" alt=""></a>
+    <a href="https://stage.corich.jp/stage_main/298468" target="_blank"><img src="https://prd.storage.lit.link/images/creators/baf3f515-9a84-4738-bd4d-96432bd1a38b/profile_links/single_images/5e944a9f-4b31-4940-9c40-a90355ed2ad3.jpeg" alt=""></a>
+  </div>
+</div></section>
+
+<section class="sec" id="contact"><div class="container">
+  <div class="sec-label rv">問い合わせ</div>
+  <div class="sec-title rv">お問い合わせ・SNS</div>
+  <div class="contact-row rv">
+    <a href="https://www.instagram.com/factory_aonza/" target="_blank" class="cc"><div class="ic">📸</div><div><div class="cl">Instagram</div><div class="cs">稽古風景やメンバーの素の姿</div></div></a>
+    <a href="https://twitter.com/factoryaonza" target="_blank" class="cc"><div class="ic">𝕏</div><div><div class="cl">X (Twitter)</div><div class="cs">最速でaon座情報をゲット</div></div></a>
+    <a href="https://www.tiktok.com/@aonza0416" target="_blank" class="cc"><div class="ic">🎵</div><div><div class="cl">TikTok</div><div class="cs">毎日ライブ配信中</div></div></a>
+  </div>
+  <div class="contact-mail rv">お仕事のご依頼：アーティストユニオン「華淡」<br><a href="/cdn-cgi/l/email-protection#b2d3c5d3c6d3c1dadb9cc7dcdbdddcf2d5dfd3dbde9cd1dddf"><span class="__cf_email__" data-cfemail="d3b2a4b2a7b2a0bbbafda6bdbabcbd93b4beb2babffdb0bcbe">[email&#160;protected]</span></a></div>
+</div></section>
+
+<footer>© 2024 劇ファクトリー・aon座</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></scrip
